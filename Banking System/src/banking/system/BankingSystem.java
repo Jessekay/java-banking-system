@@ -1,7 +1,9 @@
 package banking.system;
 
 import java.sql.Connection;
+import java.sql.DriverAction;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -12,10 +14,10 @@ public class BankingSystem {
         boolean condition = true;
         String option;
         String nationalID = null;
-        String names;
-        int age;
-        String phoneNumber;
-        String accountNumber;
+        String names = null;
+        int age = 0;
+        String phoneNumber = null;
+        String accountNumber = null;
         String db_url = "jdbc:mysql://localhost/customer";
         String username = "root";
         String passwd = "12092001";
@@ -123,18 +125,6 @@ public class BankingSystem {
                                 ex.printStackTrace();
                             }
 
-                        //     System.out.println("Do you want to continue(yes/no): ");
-                        //     answer = sc.next();
-                        //     if (answer.equalsIgnoreCase("yes")) {
-                        //         condition = true;
-                        //     } else if (answer.equalsIgnoreCase("no")) {
-                        //         System.out.println("Thank you for using our system!");
-                        //         condition = false;
-                        //         System.exit(0);
-                        //     } else {
-                        //         System.out.println("invalid choice");
-                        //         condition = true;
-                        //     }
                         break;
                         case 2:
                             System.out.println("Enter national ID: ");
@@ -161,19 +151,6 @@ public class BankingSystem {
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
-
-                            // System.out.println("Do you want to continue(yes/no): ");
-                            // answer = sc.next();
-                            // if (answer.equalsIgnoreCase("yes")) {
-                            //     condition = true;
-                            // } else if (answer.equalsIgnoreCase("no")) {
-                            //     System.out.println("Thank you for using our system!");
-                            //     condition = false;
-                            //     System.exit(0);
-                            // } else {
-                            //     System.out.println("invalid choice");
-                            //     condition = true;
-                            // }
                         break;
                         case 3:
                             System.out.println("Enter your names");
@@ -203,19 +180,6 @@ public class BankingSystem {
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
-
-                            // System.out.println("Do you want to continue(yes/no): ");
-                            // answer = sc.next();
-                            // if (answer.equalsIgnoreCase("yes")){
-                            //     condition = true;
-                            // } else if (answer.equalsIgnoreCase("no")) {
-                            //     System.out.println("Thank you for using our system!");
-                            //     condition = false;
-                            //     System.exit(0);
-                            // } else {
-                            //     System.out.println("invalid choice");
-                            //     condition = true;
-                            // }
                             break;
                             case 4:
                             System.out.println("Enter your national ID: ");
@@ -275,6 +239,37 @@ public class BankingSystem {
                             }
                             break;
                     }
+                    break;
+                case 3: 
+                     System.out.println("Option 3 selected");
+                     System.out.println("Find customer using national ID");
+                     sc.nextLine();
+                     System.out.println("Enter the national ID of the customer: ");
+                     nationalID = sc.nextLine();
+                     
+                     try {
+                        // create and establish a connection
+                        Connection con = DriverManager.getConnection(db_url, username, passwd);
+                        // create statement 
+                        Statement st = con.createStatement();
+                        // excute the query
+                        String sql = "SELECT * FROM Customers WHERE nid = '"+ nationalID +"'" ;
+                        ResultSet rs = st.executeQuery(sql);
+
+                        if (rs.next()) {
+                            System.out.println("Customer found");
+                            System.out.println("National ID: " + rs.getString("nid"));
+                            System.out.println("Names: " + rs.getString("names"));
+                            System.out.println("Age: " + rs.getString("age"));
+                            System.out.println("Phone number: " + rs.getString("phone_number"));
+                            System.out.println("Account number: " + rs.getString("account_number"));
+                        } else {
+                            System.out.println("No customer found with this national ID");
+                        }
+                        con.close();
+                     } catch (Exception ex) {
+                        ex.printStackTrace();
+                     }
                 case 0:
                     System.out.println("Thank you for using the system");
                     condition = false;
