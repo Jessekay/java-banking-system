@@ -1,7 +1,6 @@
 package banking.system;
 
 import java.sql.Connection;
-import java.sql.DriverAction;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -265,6 +264,29 @@ public class BankingSystem {
                             System.out.println("Account number: " + rs.getString("account_number"));
                         } else {
                             System.out.println("No customer found with this national ID");
+                        }
+                        con.close();
+                     } catch (Exception ex) {
+                        ex.printStackTrace();
+                     }
+                     break;
+                case 4:
+                     System.out.println("Option 4 selected");
+                     System.out.println("Delete customer");
+                     sc.nextLine();
+                     System.out.println("Enter the id of the customer you want delete: ");
+                     nationalID = sc.nextLine();
+                     
+                     try {
+                        Connection con = DriverManager.getConnection(db_url, username, passwd);
+                        Statement st = con.createStatement();
+
+                        String sql = "DELETE FROM Customers WHERE nid = '"+ nationalID +"'";
+                        int deleteRowsAffected = st.executeUpdate(sql);
+                        if (deleteRowsAffected > 0) {
+                            System.out.println("Customer deleted successfully!");
+                        } else {
+                            System.out.println("Sorry, customer not deleted!");
                         }
                         con.close();
                      } catch (Exception ex) {
