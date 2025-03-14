@@ -217,6 +217,35 @@ public class BankingSystem {
                             //     condition = true;
                             // }
                             break;
+                            case 4:
+                            System.out.println("Enter your national ID: ");
+                            sc.nextLine();
+                            nationalID = sc.nextLine();
+                            System.out.println("Enter your new phone number: ");
+
+                            while (!sc.hasNextLine()) {
+                                System.out.println("Invalid input, please try again");
+                                // sc.nextLine();
+                            }
+                            String newPhoneNumber = sc.next();
+                            try {
+                                // create and establish a network
+                                Connection con = DriverManager.getConnection(db_url, username, passwd);
+                                // create statement
+                                Statement st = con.createStatement();
+                                // execute the query
+                                String sql = "UPDATE Customers SET phone_number = '"+ newPhoneNumber +"' WHERE nid = '"+ nationalID +"'";
+                                int phoneRowsAffected = st.executeUpdate(sql);
+                                if (phoneRowsAffected > 0) {
+                                    System.out.println("Phone number updated successfully!");
+                                } else {
+                                    System.out.println("Sorry, phone number not updated!");
+                                }
+                                con.close();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            break;
                     }
                 case 0:
                     System.out.println("Thank you for using the system");
