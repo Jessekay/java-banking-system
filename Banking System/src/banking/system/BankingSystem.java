@@ -292,7 +292,44 @@ public class BankingSystem {
                      } catch (Exception ex) {
                         ex.printStackTrace();
                      }
-                case 0:
+                     break;
+                case 5: 
+                     System.out.println("Option 5 selected");
+                     System.out.println("Find all customers");
+                     sc.nextLine();
+                     try {
+                        Connection con = DriverManager.getConnection(db_url, username, passwd);
+                        Statement st = con.createStatement();
+
+                        String query = "SELECT * FROM Customers";
+                        ResultSet rs = st.executeQuery(query);
+
+                        System.out.println("\nLIST OF ALL CUSTOMERS");
+                        System.out.println("=====================");
+
+                        boolean hasData = false;
+
+                        while(rs.next()){
+                            hasData = true;
+                            System.out.println("National ID: " + rs.getString("nid"));
+                            System.out.println("Names: " + rs.getString("names"));
+                            System.out.println("Age: " + rs.getString("age"));
+                            System.out.println("Phone number: " + rs.getString("phone_number"));
+                            System.out.println("Account number: " + rs.getString("account_number"));
+                            System.out.println("------------------------");
+                        }
+
+                        if (!hasData) {
+                            System.out.println("No customers found in the database");
+                        }
+                        rs.close();
+                        st.close();
+                        con.close();
+                     } catch (Exception ex) {
+                        ex.printStackTrace();
+                     } 
+                     break;   
+                case 6:
                     System.out.println("Thank you for using the system");
                     condition = false;
                     System.out.println("Enter yes to continue or No to quit");
@@ -305,8 +342,8 @@ public class BankingSystem {
                         System.out.println("Wrong Answer");
                     }
                     break;
-                case 5:
-                    System.out.println("Option 5 selected!");
+                case 0:
+                    System.out.println("Option 0 selected!");
                     System.out.println("Enter yes to continue or No to quit");
                     option = sc.next();
                     if (option.equalsIgnoreCase("Yes")) {
