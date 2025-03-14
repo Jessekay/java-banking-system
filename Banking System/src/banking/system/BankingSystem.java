@@ -87,6 +87,9 @@ public class BankingSystem {
                     }
                     break;
                 case 2:
+                    boolean updateCondition = true;
+
+                    while (updateCondition) {
                     System.out.println("Option 2 Selected!");
                     System.out.println("Update");
                     System.out.println("1. Update national ID");
@@ -94,6 +97,7 @@ public class BankingSystem {
                     System.out.println("3. Update age");
                     System.out.println("4. Update phone number");
                     System.out.println("5. Update account number");
+                    System.out.println("0. Go back to main menu");
 
                     int updateChoice = sc.nextInt();
                     switch (updateChoice) {
@@ -237,7 +241,24 @@ public class BankingSystem {
                                 ex.printStackTrace();
                             }
                             break;
+                         case 0:
+                               updateCondition = false;
+                               break;
+                               
+                         default:
+                               System.out.println("Invalid choice, please select a valid choice");      
+                    
+                        }
+                        
+                        if (updateChoice != 0) {
+                            System.out.println("Do you want to continue updating? (yes/no)");
+                            String continueUpdating = sc.next();
+                            if (!continueUpdating.equalsIgnoreCase("yes")) {
+                                updateCondition = false;
+                            }
+                        }
                     }
+
                     break;
                 case 3: 
                      System.out.println("Option 3 selected");
