@@ -11,7 +11,7 @@ public class BankingSystem {
         Scanner sc = new Scanner(System.in);
         boolean condition = true;
         String option;
-        String nationalID;
+        String nationalID = null;
         String names;
         int age;
         String phoneNumber;
@@ -240,6 +240,34 @@ public class BankingSystem {
                                     System.out.println("Phone number updated successfully!");
                                 } else {
                                     System.out.println("Sorry, phone number not updated!");
+                                }
+                                con.close();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            break;
+                            case 5:
+                            System.out.println("Enter your national ID: ");
+                            sc.nextLine();
+                            nationalID = sc.nextLine();
+                            System.out.println("Enter your new account number: ");
+                            while(!sc.hasNextLine()) {
+                                System.out.println("Invalid input, try again");
+                            }
+                            String newAccNumber = sc.nextLine();
+
+                            try {
+                                // create and establish a connection
+                                Connection con = DriverManager.getConnection(db_url, username, passwd);
+                                // create statement
+                                Statement st = con.createStatement();
+                                // execute query
+                                String sql = "UPDATE Customers SET account_number = '"+ newAccNumber +"' WHERE nid = '"+ nationalID +"'";
+                                int accNumberRowsAffected = st.executeUpdate(sql);
+                                if (accNumberRowsAffected > 0) {
+                                    System.out.println("Account number has been successfully updated!");
+                                } else {
+                                    System.out.println("Sorry, account number not updated!");
                                 }
                                 con.close();
                             } catch (Exception ex) {
