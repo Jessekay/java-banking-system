@@ -49,10 +49,18 @@ public class BankingSystem {
                             System.out.println("Invalid input! National should contain digits only.");
                         }
                     }
-                   
-                    System.out.print("Enter your names: ");
-                    sc.nextLine();
-                    names = sc.nextLine();
+                //    validate user to only enter alphabets for names
+                    while (true) {
+                        System.out.print("Enter your names: ");
+                        sc.nextLine();
+                        names = sc.nextLine();
+                        if (names.matches("^[A-Za-z ]+$")) {
+                            break;
+                        } else {
+                            System.out.println("Invalid name!, Please use only letters and spaces");
+                        }
+                    }
+                    
                     // validate age to always be integer and reasonable
                     while (true) {
                         System.out.print("Enter your Age:");
@@ -78,6 +86,7 @@ public class BankingSystem {
                             System.out.println("Invalid phone number!, Enter a valid 10 digit number");
                         }
                     }
+
                     // validate acc number to only be numbers
                     while (true) {
                         System.out.print("Enter your Account Number:");
