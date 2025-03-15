@@ -68,9 +68,17 @@ public class BankingSystem {
                             sc.next();
                         }
                     }
+                    // validatet phone number to be always digits and to not exceed 10 digits
+                    while(true) {
+                        System.out.print("Enter your Phone Number(10 digits):");
+                        phoneNumber = sc.next();
+                        if (phoneNumber.matches("\\d+{10}")) {
+                            break;
+                        } else {
+                            System.out.println("Invalid phone number!, Enter a valid 10 digit number");
+                        }
+                    }
                     
-                    System.out.print("Enter your Phone Number:");
-                    phoneNumber = sc.next();
                     System.out.print("Enter your Account Number:");
                     accountNumber = sc.next();
                     sc.nextLine();
