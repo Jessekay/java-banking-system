@@ -53,8 +53,22 @@ public class BankingSystem {
                     System.out.print("Enter your names: ");
                     sc.nextLine();
                     names = sc.nextLine();
-                    System.out.print("Enter your Age:");
-                    age = sc.nextInt();
+                    // validate age to always be integer and reasonable
+                    while (true) {
+                        System.out.print("Enter your Age:");
+                        if (sc.hasNextInt()) {
+                           age = sc.nextInt();
+                           if (age > 0 & age < 120) {
+                            break;
+                           } else {
+                            System.out.println("Invalid age! Please enter a valid age (1-120).");
+                           }
+                        } else {
+                            System.out.println("Inavlid input! Please enter a valid age.");
+                            sc.next();
+                        }
+                    }
+                    
                     System.out.print("Enter your Phone Number:");
                     phoneNumber = sc.next();
                     System.out.print("Enter your Account Number:");
