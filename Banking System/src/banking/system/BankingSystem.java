@@ -78,9 +78,17 @@ public class BankingSystem {
                             System.out.println("Invalid phone number!, Enter a valid 10 digit number");
                         }
                     }
+                    // validate acc number to only be numbers
+                    while (true) {
+                        System.out.print("Enter your Account Number:");
+                        accountNumber = sc.next();
+                        if (accountNumber.matches("\\d+")) {
+                            break;
+                        } else {
+                            System.out.println("Invalid account number!, Please enter a valid account number");
+                        }
+                    }
                     
-                    System.out.print("Enter your Account Number:");
-                    accountNumber = sc.next();
                     sc.nextLine();
 
                     try {
