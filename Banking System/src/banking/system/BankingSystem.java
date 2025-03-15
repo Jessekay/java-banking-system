@@ -39,9 +39,18 @@ public class BankingSystem {
                 case 1:
                     System.out.println("Customer registration selected!");
                     System.out.println("--------------------------------");
-                    System.out.print("Enter the National ID:");
-                    nationalID = sc.next();
-                    System.out.print("Enter YOUR NAMES:");
+                    // validate national ID to always be digits only
+                    while (true) {
+                        System.out.print("Enter the National ID(numbers only):");
+                        nationalID = sc.next();
+                        if (nationalID.matches("\\d+")) {
+                            break;
+                        } else {
+                            System.out.println("Invalid input! National should contain digits only.");
+                        }
+                    }
+                   
+                    System.out.print("Enter your names: ");
                     sc.nextLine();
                     names = sc.nextLine();
                     System.out.print("Enter your Age:");
