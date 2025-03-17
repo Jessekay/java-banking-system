@@ -32,6 +32,10 @@ public class Customer {
         return phoneNumber;
     }
 
+    public String accountNumber() {
+        return accountNumber;
+    }
+
     public static Customer registrationCustomer(Scanner sc) {
         System.out.println("Customer Registration");
         System.out.println("------------------------------");
@@ -42,7 +46,7 @@ public class Customer {
         String phoneNumber = Validation.getValidPhoneNumber(sc);
         String accountNumber = Validation.getValidAccountNumber(sc);
         
-        return new Customer(, names, age, phoneNumber, accountNumber);
+        return new Customer(nationalID, names, age, phoneNumber, accountNumber);
     }
     
 }
