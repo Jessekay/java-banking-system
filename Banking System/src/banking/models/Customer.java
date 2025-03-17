@@ -2,6 +2,8 @@ package banking.models;
 
 import java.util.Scanner;
 
+import banking.utils.Validation;
+
 public class Customer {
     private String nationalID;
     private String names;
