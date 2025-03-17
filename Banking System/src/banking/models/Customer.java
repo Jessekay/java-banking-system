@@ -1,5 +1,7 @@
 package banking.models;
 
+import java.util.Scanner;
+
 public class Customer {
     private String nationalID;
     private String names;
@@ -7,7 +9,6 @@ public class Customer {
     private String phoneNumber;
     private String accountNumber;
 
-    // Constructor
     public Customer(String nationalID, String names, int age, String phoneNumber, String accountNumber) {
         this.nationalID = nationalID;
         this.names = names;
@@ -15,20 +16,33 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.accountNumber = accountNumber;
     }
+    public String getNationalId() {
+        return nationalID;
+    }
 
-    // Getters & Setters
-    public String getNationalID() { return nationalID; }
-    public void setNationalID(String nationalID) { this.nationalID = nationalID; }
+    public String getNames() {
+        return names;
+    }
 
-    public String getNames() { return names; }
-    public void setNames(String names) { this.names = names; }
+    public int age() {
+        return age;
+    }
 
-    public int getAge() { return age; }
-    public void setAge(int age) { this.age = age; }
+    public String phoneNumber() {
+        return phoneNumber;
+    }
 
-    public String getPhoneNumber() { return phoneNumber; }
-    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    public static Customer registrationCustomer(Scanner sc) {
+        System.out.println("Customer Registration");
+        System.out.println("------------------------------");
 
-    public String getAccountNumber() { return accountNumber; }
-    public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
+        String nationalID = Validation.getValidNationalID(sc);
+        String names = Validation.getValidName(sc);
+        int age = Validation.getValidAge(sc);
+        String phoneNumber = Validation.getValidPhoneNumber(sc);
+        String accountNumber = Validation.getValidAccountNumber(sc);
+        
+        return new Customer(, names, age, phoneNumber, accountNumber);
+    }
+    
 }
