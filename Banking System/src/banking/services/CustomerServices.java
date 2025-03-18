@@ -5,8 +5,10 @@ import banking.models.Customer;
 import banking.utils.Validation;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Scanner;
 
 
@@ -78,5 +80,56 @@ public class CustomerServices {
             System.out.print("Enter your phone number (10 digits): ");
             phoneNumber = sc.nextLine();
         } while (!InputValidator.isValidPhone(phoneNumber));
+
+        // validate account number
+        String accountNumber;
+        do {
+            System.out.println("Enter account number: ");
+            accountNumber = sc.nextLine();
+        } while (!InputValidator.isValidNumber(accountNumber)) {
+            
+            Customer customer = new Customer(nationalID, nationalID, age, phoneNumber, accountNumber);
+
+            try {
+                String sql = "INSERT INTO Customers (nid, names, age, phone_number, account_number) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, customer.getNationalID());
+                pst.setString(2, customer.getNames());
+                pst.setInt(3, customer.getAge());
+                pst.setString(4, customer.getPhoneNumber());
+                pst.setString(5, customer.getAccountNumber());
+
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    System.out.println("Customer registered successfully!");
+                } else {
+                    System.out.println("Registration failed.");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        public static void findCustomerByNID(String nationalID) {
+            try (Connection con = DriverManager.getConnection(db_url, username, passwd)){
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery("SELECT * FROM Customers WHERE nid = '"+ nationalID +"'");
+                if (rs.next()) {
+                    System.out.println("Customer found");
+                    System.out.println("National id: " + rs.getString("nid"));
+                    System.out.println("Customer name: " + rs.getString("names"));
+                    System.out.println("Customer age: " + rs.getString("age"));
+                    System.out.println("Customer phone number: " + rs.getString("phoneNumber"));
+                    System.out.println("Customer account number: " + rs.getString("accountNumber"));
+                } else {
+                    System.out.println("No customer found with this national id.");
+                }
+                
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        
     }
 }
