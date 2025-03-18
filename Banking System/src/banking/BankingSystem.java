@@ -30,6 +30,10 @@ public class BankingSystem {
                         DatabaseManager.insertCustomer(customer);
                     }
                     break;
+                case 2: 
+                    DatabaseManager.updateCustomer(sc);    
+                    break;
+                    
             }
         }
     }
