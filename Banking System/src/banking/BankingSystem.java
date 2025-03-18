@@ -33,7 +33,11 @@ public class BankingSystem {
                 case 2: 
                     DatabaseManager.updateCustomer(sc);    
                     break;
-                    
+                case 3:
+                    System.out.println("Enter the national ID of the customer: ");
+                    String nid = sc.nextLine();
+                    DatabaseManager.findCustomerByNID(nid);
+                    break;    
             }
         }
     }
