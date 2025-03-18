@@ -1,8 +1,6 @@
-package banking.system;
+package banking;
 
 import java.util.Scanner;
-
-import banking.models.Customer;
 
 public class BankingSystem {
     public static void main(String[] args) {
