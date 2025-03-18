@@ -38,8 +38,23 @@ public class BankingSystem {
                     String nid = sc.nextLine();
                     DatabaseManager.findCustomerByNID(nid);
                     break;    
+                case 4: 
+                    System.out.println("Enter the national id of the customer to delete: ");
+                    String deleteID = sc.nextLine();
+                    DatabaseManager.deleteCustomer(deleteID);
+                    break;
+                case 5:
+                    DatabaseManager.findAllCustomers();
+                    break;
+                case 0:
+                    System.out.println("Thank you for using our system!");
+                    condition = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again");                 
             }
         }
+        sc.close();
     }
 }
 
