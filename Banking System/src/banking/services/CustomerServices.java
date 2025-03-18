@@ -130,6 +130,19 @@ public class CustomerServices {
             }
         }
 
-        
+        public static void findAllCustomers() {
+            try {
+                System.out.println(Connection con = DriverManager.getConnection(db_url, username, passwd));
+                Statement st =con.createStatement();
+                ResultSet rs = st.executeQuery("SELECT * Customers");
+
+                while (rs.next()) {
+                    System.out.println(rs.getString("nid")  + "-" + rs.getString("names"));
+                }
+
+            } catch (Exception ex) {
+                 ex.printStackTrace();
+            }
+        }
     }
 }
