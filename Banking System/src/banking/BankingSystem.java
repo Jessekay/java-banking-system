@@ -29,6 +29,7 @@ public class BankingSystem {
                     if (customer != null) {
                         DatabaseManager.insertCustomer(customer);
                     }
+                    break;
             }
         }
     }

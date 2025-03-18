@@ -36,7 +36,7 @@ public class Customer {
         return accountNumber;
     }
 
-    public static Customer registrationCustomer(Scanner sc) {
+    public static Customer registerCustomer(Scanner sc) {
         System.out.println("Customer Registration");
         System.out.println("------------------------------");
 
