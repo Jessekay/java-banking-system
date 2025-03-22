@@ -2,6 +2,7 @@ package banking.system;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -344,46 +345,53 @@ public class BankingSystem {
                         ex.printStackTrace();
                      }
                      break;
-                case 4:
+                     case 4:
                      System.out.println("Option 4 selected");
                      System.out.println("Delete customer");
                      sc.nextLine();
-                     System.out.println("Enter the id of the customer you want delete: ");
+                 
+                     System.out.print("Enter the national ID of the customer you want to delete: ");
                      nationalID = sc.nextLine();
-
-                     try {
-                        Connection con = DriverManager.getConnection(db_url, username, passwd);
-                        Statement st = con.createStatement();
-                        String sql = "SELECT * FROM Customers WHERE nid = '"+ nationalID +"'";
-                        ResultSet rs = st.executeQuery(sql);
-                        if (rs.next()) {
-                            System.out.println("Customer national id: " + rs.getString("nid"));
-                            System.out.println("Customer names: " + rs.getString("names"));
-                            System.out.println("Customer age: " + rs.getInt("age"));
-                            System.out.println("Customer phone number: " + rs.getString("phone_number"));
-                            System.out.println("Customer account number: "+ rs.getString("account_number"));
-                        }
+                 
+                     try (Connection con = DriverManager.getConnection(db_url, username, passwd);
+                          PreparedStatement pst = con.prepareStatement("SELECT * FROM Customers WHERE nid = ?")) {
+                 
+                         pst.setString(1, nationalID);
+                         ResultSet rs = pst.executeQuery();
+                 
+                         if (rs.next()) {
+                             System.out.println("Customer Found:");
+                             System.out.println("National ID: " + rs.getString("nid"));
+                             System.out.println("Names: " + rs.getString("names"));
+                             System.out.println("Age: " + rs.getInt("age"));
+                             System.out.println("Phone Number: " + rs.getString("phone_number"));
+                             System.out.println("Account Number: " + rs.getString("account_number"));
+                 
+                             System.out.print("Are you sure you want to delete this customer? (yes/no): ");
+                             String deleteConfirmation = sc.next().trim();
+                 
+                             if (deleteConfirmation.equalsIgnoreCase("yes")) {
+                                 try (PreparedStatement deletePst = con.prepareStatement("DELETE FROM Customers WHERE nid = ?")) {
+                                     deletePst.setString(1, nationalID);
+                                     int rowsAffected = deletePst.executeUpdate();
+                 
+                                     if (rowsAffected > 0) {
+                                         System.out.println("Customer deleted successfully!");
+                                     } else {
+                                         System.out.println("Customer could not be deleted.");
+                                     }
+                                 }
+                             } else {
+                                 System.out.println("Customer deletion canceled.");
+                             }
+                         } else {
+                             System.out.println("Customer not found!");
+                         }
                      } catch (Exception ex) {
-                        ex.printStackTrace();
-                     }
-
-                     
-                     try {
-                        Connection con = DriverManager.getConnection(db_url, username, passwd);
-                        Statement st = con.createStatement();
-
-                        String sql = "DELETE FROM Customers WHERE nid = '"+ nationalID +"'";
-                        int deleteRowsAffected = st.executeUpdate(sql);
-                        if (deleteRowsAffected > 0) {
-                            System.out.println("Customer deleted successfully!");
-                        } else {
-                            System.out.println("Sorry, customer not deleted!");
-                        }
-                        con.close();
-                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                         ex.printStackTrace();
                      }
                      break;
+                 
                 case 5: 
                      System.out.println("Option 5 selected");
                      System.out.println("Find all customers");
