@@ -3,6 +3,7 @@
         "Banking System\\src"
     ],
     "java.project.referencedLibraries": [
-        "c:\\Users\\kayje\\Desktop\\mysql-connector-j-9.2.0\\mysql-connector-j-9.2.0\\mysql-connector-j-9.2.0.jar"
+        "c:\\Users\\kayje\\Desktop\\mysql-connector-j-9.2.0\\mysql-connector-j-9.2.0\\mysql-connector-j-9.2.0.jar",
+        "c:\\Users\\kayje\\OneDrive\\Desktop\\mysql-connector-j-9.2.0\\mysql-connector-j-9.2.0\\mysql-connector-j-9.2.0.jar"
     ]
 }

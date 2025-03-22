@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class BankingSystem {
     public static void main(String[] args) {
         // variable declaration
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);   
         boolean condition = true;
         String option;
         String nationalID = null;
@@ -36,9 +36,9 @@ public class BankingSystem {
 
             int choice = sc.nextInt();
             switch (choice) {
-                case 1:
+                case 1: 
                     System.out.println("Customer registration selected!");
-                    System.out.println("--------------------------------");
+                    System.out.println("--------------------------------"); 
                     // validate national ID to always be digits only
                     while (true) {
                         System.out.print("Enter the National ID(numbers only):");
@@ -66,10 +66,10 @@ public class BankingSystem {
                         System.out.print("Enter your Age:");
                         if (sc.hasNextInt()) {
                            age = sc.nextInt();
-                           if (age > 0 & age < 120) {
+                           if (age >= 18 & age < 120) {
                             break;
                            } else {
-                            System.out.println("Invalid age! Please enter a valid age (1-120).");
+                            System.out.println("Invalid age! Please enter a valid age (18 -120).");
                            }
                         } else {
                             System.out.println("Inavlid input! Please enter a valid age.");
@@ -80,7 +80,7 @@ public class BankingSystem {
                     while(true) {
                         System.out.print("Enter your Phone Number(10 digits):");
                         phoneNumber = sc.next();
-                        if (phoneNumber.matches("\\d+{10}")) {
+                        if (phoneNumber.matches("\\d{10}")) {
                             break;
                         } else {
                             System.out.println("Invalid phone number!, Enter a valid 10 digit number");
@@ -182,6 +182,8 @@ public class BankingSystem {
                             nationalID = sc.next();
                             System.out.print("Enter your new name: ");
                             sc.nextLine();
+
+                             
                             String newNames = sc.nextLine();
 
                             try {
@@ -196,6 +198,7 @@ public class BankingSystem {
                                 if (namesUpdateRowsAffected > 0) {
                                     System.out.println("Names updated successfully!");
                                 } else {
+
                                     System.out.println("Names not updated");
                                 }
                                 con.close();
@@ -323,12 +326,14 @@ public class BankingSystem {
                         // excute the query
                         String sql = "SELECT * FROM Customers WHERE nid = '"+ nationalID +"'" ;
                         ResultSet rs = st.executeQuery(sql);
+                        int counter = 0;
 
                         if (rs.next()) {
-                            System.out.println("Customer found");
+                            counter ++;
+                            System.out.println("Customer " + counter);
                             System.out.println("National ID: " + rs.getString("nid"));
-                            System.out.println("Names: " + rs.getString("names"));
-                            System.out.println("Age: " + rs.getString("age"));
+                            System.out.println("Names: " + rs.getString(2));
+                            System.out.println("Age: " + rs.getInt("age"));
                             System.out.println("Phone number: " + rs.getString("phone_number"));
                             System.out.println("Account number: " + rs.getString("account_number"));
                         } else {
@@ -345,6 +350,23 @@ public class BankingSystem {
                      sc.nextLine();
                      System.out.println("Enter the id of the customer you want delete: ");
                      nationalID = sc.nextLine();
+
+                     try {
+                        Connection con = DriverManager.getConnection(db_url, username, passwd);
+                        Statement st = con.createStatement();
+                        String sql = "SELECT * FROM Customers WHERE nid = '"+ nationalID +"'";
+                        ResultSet rs = st.executeQuery(sql);
+                        if (rs.next()) {
+                            System.out.println("Customer national id: " + rs.getString("nid"));
+                            System.out.println("Customer names: " + rs.getString("names"));
+                            System.out.println("Customer age: " + rs.getInt("age"));
+                            System.out.println("Customer phone number: " + rs.getString("phone_number"));
+                            System.out.println("Customer account number: "+ rs.getString("account_number"));
+                        }
+                     } catch (Exception ex) {
+                        ex.printStackTrace();
+                     }
+
                      
                      try {
                         Connection con = DriverManager.getConnection(db_url, username, passwd);
@@ -375,11 +397,12 @@ public class BankingSystem {
 
                         System.out.println("\nLIST OF ALL CUSTOMERS");
                         System.out.println("=====================");
-
                         boolean hasData = false;
-
+                        int counter = 0;
                         while(rs.next()){
                             hasData = true;
+                            counter ++;
+                            System.out.println("Customers found " + counter);
                             System.out.println("National ID: " + rs.getString("nid"));
                             System.out.println("Names: " + rs.getString("names"));
                             System.out.println("Age: " + rs.getString("age"));
