@@ -151,61 +151,87 @@ public class BankingSystem {
                     int updateChoice = sc.nextInt();
                     switch (updateChoice) {
                         case 1:
-                            System.out.println("Enter your name: ");
+                            System.out.println("Enter national id: ");
                             sc.nextLine();
-                            names = sc.nextLine();
-                            System.out.println("Enter your new national ID:");
-                            int newNid = sc.nextInt();
+                            nationalID = sc.nextLine();
+                            try (Connection con = DriverManager.getConnection(db_url, username, passwd);
+                          PreparedStatement pst = con.prepareStatement("SELECT * FROM Customers WHERE nid = ?")) {
+                 
+                         pst.setString(1, nationalID);
+                         ResultSet rs = pst.executeQuery();
+                 
+                         if (rs.next()) {
+                             System.out.println("Customer Found:");
+                             System.out.println("National ID: " + rs.getString("nid"));
+                             System.out.println("Names: " + rs.getString("names"));
+                             System.out.println("Age: " + rs.getInt("age"));
+                             System.out.println("Phone Number: " + rs.getString("phone_number"));
+                             System.out.println("Account Number: " + rs.getString("account_number"));
+                             System.out.println("Enter your new national ID:");
+                             String newNid = sc.next();
 
-                            try {
-                                // create and establish a connection
-                                Connection con = DriverManager.getConnection(db_url, username, passwd);
                                 // create a statement
                                 Statement st = con.createStatement();
                                 // execute the statement
-                                String sql = "UPDATE Customers SET nid = '" + newNid + "' WHERE names = '" + names
+                                String sql = "UPDATE Customers SET nid = '" + newNid + "' WHERE nid = '" + nationalID
                                         + "'";
                                 int idUpdateRowsAffected = st.executeUpdate(sql);
                                 if (idUpdateRowsAffected > 0) {
                                     System.out.println("National ID updated successfully!");
                                 } else {
                                     System.out.println("National ID not updated!");
-                                }
+                                } 
                                 con.close();
-
+                            
+                            } else {
+                                System.out.println("not found");
+                            }
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
-
-                        break;
-                        case 2:
-                            System.out.println("Enter national ID: ");
-                            nationalID = sc.next();
-                            System.out.print("Enter your new name: ");
-                            sc.nextLine();
-
                              
-                            String newNames = sc.nextLine();
+                      
+                        break;
+                          
+                        case 2:
+                        System.out.println("Enter national id: ");
+                        sc.nextLine();
+                        nationalID = sc.nextLine();
+                        try (Connection con = DriverManager.getConnection(db_url, username, passwd);
+                      PreparedStatement pst = con.prepareStatement("SELECT * FROM Customers WHERE nid = ?")) {
+             
+                     pst.setString(1, nationalID);
+                     ResultSet rs = pst.executeQuery();
+             
+                     if (rs.next()) {
+                         System.out.println("Customer Found:");
+                         System.out.println("National ID: " + rs.getString("nid"));
+                         System.out.println("Names: " + rs.getString("names"));
+                         System.out.println("Age: " + rs.getInt("age"));
+                         System.out.println("Phone Number: " + rs.getString("phone_number"));
+                         System.out.println("Account Number: " + rs.getString("account_number"));
+                         System.out.println("Enter your new names:");
+                         String newNames = sc.nextLine();
 
-                            try {
-                                // create and establish a connection
-                                Connection con = DriverManager.getConnection(db_url, username, passwd);
-                                // create statement
-                                Statement st = con.createStatement();
-                                // execute query
-                                String sql = "UPDATE Customers SET names = '" + newNames + "' WHERE nid = '"
-                                        + nationalID + "'";
-                                int namesUpdateRowsAffected = st.executeUpdate(sql);
-                                if (namesUpdateRowsAffected > 0) {
-                                    System.out.println("Names updated successfully!");
-                                } else {
-
-                                    System.out.println("Names not updated");
-                                }
-                                con.close();
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
+                            // create a statement
+                            Statement st = con.createStatement();
+                            // execute the statement
+                            String sql = "UPDATE Customers SET names = '" + newNames + "' WHERE nid = '" + nationalID
+                                    + "'";
+                            int idUpdateRowsAffected = st.executeUpdate(sql);
+                            if (idUpdateRowsAffected > 0) {
+                                System.out.println("National ID updated successfully!");
+                            } else {
+                                System.out.println("National ID not updated!");
+                            } 
+                            con.close();
+                        
+                        } else {
+                            System.out.println("not found");
+                        }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        } 
                         break;
                         case 3:
                             System.out.println("Enter your names");
@@ -446,6 +472,7 @@ public class BankingSystem {
                     System.out.println("Option 0 selected!");
                     System.out.println("Enter yes to continue or No to quit");
                     option = sc.next();
+                    // commented on this
                     if (option.equalsIgnoreCase("Yes")) {
                         condition = true;
                     } else if (option.equalsIgnoreCase("No")) {
